@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Localization : MonoBehaviour
 {
-    public static int currentLanguage = 1;
+    public static int currentLanguage = 0;
     private Dictionary<string, string[]> _fields;
     private static Dictionary<string, string[]> Fields;
 

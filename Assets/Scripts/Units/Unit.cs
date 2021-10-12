@@ -12,6 +12,7 @@ public class Unit : Transformer
     
     private GlobalGame _globalGame;
     private Coroutine _moveCoroutine;
+    private Vector2 _lastPosition;
 
     protected override void Awake()
     {
@@ -19,6 +20,7 @@ public class Unit : Transformer
         _globalGame = FindObjectOfType<GlobalGame>();
         _globalGame.AddUnit(this);
         _numberText.text = $"{number}";
+        _lastPosition = transform.position;
     }
 
     public void TryMove(Vector2 direction, int control)
@@ -40,6 +42,7 @@ public class Unit : Transformer
             yield return null;
         }
         transform.position = targetPoint;
+        _lastPosition = targetPoint;
         _moveCoroutine = null;
     }
 
@@ -52,10 +55,7 @@ public class Unit : Transformer
         if (_moveCoroutine != null)
         {
             StopCoroutine(_moveCoroutine);
-            transform.position = VectorHelper.SetZ(VectorHelper.SnapToGrid
-            (
-                transform.position, Vector2.one * 5, (Vector2.one * 2.5f)),
-            -10);
+            transform.position = VectorHelper.SetZ(_lastPosition, -10);
         }
     }
 
